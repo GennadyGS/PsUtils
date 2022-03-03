@@ -15,7 +15,7 @@ Do {
     Invoke-Expression $command
     if ($LastExitCode -gt $successExitCode) {
         Write-Warning "Attempt $attempt of $maxAttempts of command '$command' is finished with error exit code $LastExitCode"
-        Break
+        Exit $LastExitCode
     }
     "Attempt $attempt of $maxAttempts is finished with success exit code $LastExitCode"
     if ($attempt -ge $maxAttempts) {
