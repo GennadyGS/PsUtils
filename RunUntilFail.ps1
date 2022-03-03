@@ -1,13 +1,16 @@
 param (
-    [Parameter(Mandatory=$true)]$command,
+    $command,
     $maxAttempts = 3,
     $successExitCode = 0,
     $timeoutSeconds = 2
 )
 
+if (!$command) { $command = $env:RunUntilFailCommand }
+"Command: $command"
+
 $attempt = 0
 Do {
-    $attempt++ 
+    $attempt++
     Write-Output "Attempt $attempt of $maxAttempts to run command '$command'"
     Invoke-Expression $command
     if ($LastExitCode -gt $successExitCode) {
