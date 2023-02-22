@@ -15,6 +15,15 @@ Function NotifySuccess {
     }
 }
 
+Function NotifyWarning {
+    param (
+        $message
+    )
+    if ($notificationsEnabled) {
+        New-BurntToastNotification -Text $message -AppLogo "$imagesPath/StatusWarning_256x.png"
+    }
+}
+
 Function NotifyError {
     param (
         $message
