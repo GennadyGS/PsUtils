@@ -1,5 +1,5 @@
 param (
-    $command,
+    [Parameter(Mandatory = $true, Position = 0, ValueFromRemainingArguments = $true)] $command,
     $maxAttempts = 3,
     $successExitCode = 0,
     $timeoutSeconds = 2
@@ -7,17 +7,17 @@ param (
 
 . $PSScriptRoot/Notifications.ps1
 
-if (!$command) { $command = $env:RunUntilFailCommand }
-"Command: $command"
+$commandText = [string]$command
+"Command: $commandText"
 
 $attempt = 0
 Do {
     $attempt++
-    "Attempt $attempt of $maxAttempts to run command '$command'"
-    Invoke-Expression $command
+    "Attempt $attempt of $maxAttempts to run command '$commandText'"
+    Invoke-Expression $commandText
     if ($LastExitCode -gt $successExitCode) {
         $message =
-            "Attempt $attempt of $maxAttempts of command '$command' " +
+            "Attempt $attempt of $maxAttempts of command '$commandText' " +
             "is finished with error exit code $LastExitCode"
         Write-Warning $message
         NotifyWarning $message
@@ -25,7 +25,7 @@ Do {
     }
     "Attempt $attempt of $maxAttempts is finished with success exit code $LastExitCode"
     if ($attempt -ge $maxAttempts) {
-        $message = "All $attempt attempts of command '$command' have passed"
+        $message = "All $attempt attempts of command '$commandText' have passed"
         NotifySuccess $message
         Break
     } else {

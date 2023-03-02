@@ -1,8 +1,7 @@
-param
-(
-    [Parameter(Mandatory=$true, Position=0)] $command,
-    [Parameter(Mandatory=$false, Position=1, ValueFromRemainingArguments=$true)] $commandArgs
-)
+if (!$args) {
+    Write-Error "Command is not specified"
+    exit 1
+}
 
 Function ReportError {
     param ($message)
@@ -14,9 +13,9 @@ Function ReportError {
 
 . $PSScriptRoot/Notifications.ps1
 
-$commandText = @($command) + $commandArgs | Join-String -Separator " "
+$commandText = [string]$args
 $commandTextMessage = "'$commandText' in '$pwd'"
-Write-Host "Running $commandText ..."
+Write-Host "Running $commandTextMessage ..."
 try {
     Invoke-Expression $commandText
     if ($LastExitCode -and $LastExitCode -ne 0) {
