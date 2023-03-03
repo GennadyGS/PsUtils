@@ -1,8 +1,7 @@
-param
-(
-    [Parameter(Mandatory=$true, Position=0)] $command,
-    [Parameter(Mandatory=$false, Position=1, ValueFromRemainingArguments=$true)] $commandArgs
-)
-$commandText = @($command) + $commandArgs | Join-String -Separator " "
+if (!$args) {
+    Write-Error "Command is not specified"
+    exit 1
+}
+$commandText = [string]$args
 Write-Host "Running $commandText ..."
 Invoke-Expression $commandText
