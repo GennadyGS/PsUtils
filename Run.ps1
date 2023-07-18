@@ -3,6 +3,8 @@ if (!$args) {
     exit 1
 }
 
-$commandText = [string]($args | ForEach-Object { $_.Contains(" ") ? "`"$_`"" : $_ })
+. $PSScriptRoot\Common.ps1
+
+$commandText = ArgumentsToCommandText $args
 Write-Host "Running $commandText ..."
 Invoke-Expression $commandText

@@ -11,9 +11,10 @@ Function ReportError {
     NotifyError $message
 }
 
+. $PSScriptRoot/Common.ps1
 . $PSScriptRoot/Notifications.ps1
 
-$commandText = [string]$args
+$commandText = ArgumentsToCommandText $args
 $commandTextMessage = "'$commandText' in '$pwd'"
 Write-Host "Running $commandTextMessage ..."
 try {
