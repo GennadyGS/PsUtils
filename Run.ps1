@@ -3,6 +3,6 @@ if (!$args) {
     exit 1
 }
 
-$commandText = [string]$args
+$commandText = [string]($args | ForEach-Object { $_.Contains(" ") ? "`"$_`"" : $_ })
 Write-Host "Running $commandText ..."
 Invoke-Expression $commandText
