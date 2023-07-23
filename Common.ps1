@@ -31,3 +31,17 @@ Function ArgumentsToCommandText {
     [string] (EscapeArguments $values)
 }
 
+Function ExtractPositionalArgs {
+    Function DoIteration {
+        param ($regularArgs, $inputArgs)
+        if (!$inputArgs) {
+            return ,(,@() + $regularArgs)
+        }
+        $head, $tail = $inputArgs
+        if ($head -eq "--") {
+            return ,(,$tail + $regularArgs)
+        }
+        return DoIteration ($regularArgs + $head) $tail
+    }
+    return DoIteration @() $args
+}

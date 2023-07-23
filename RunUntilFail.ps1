@@ -1,7 +1,7 @@
 . $PSScriptRoot/Common.ps1
 . $PSScriptRoot/Notifications.ps1
-    
-Function RunUntilFail {
+
+Function private:Implementation {
     param (
         $positionalArgs,
         $maxAttempts = 3,
@@ -13,8 +13,8 @@ Function RunUntilFail {
         Write-Error "Command is not specified"
         exit 1
     }
-    $commandText = ArgumentsToCommandText $args
-    
+    $commandText = ArgumentsToCommandText $positionalArgs
+
     $attempt = 0
     Do {
         $attempt++
@@ -38,23 +38,8 @@ Function RunUntilFail {
             "Retrying to run command after $timeoutSeconds s"
             Start-Sleep -s $timeoutSeconds
         }
-    } While($True)    
+    } While($True)
 }
 
-Function ExtractPositionalArgs {
-    Function IterationStep {
-        param ($regularArgs, $inputArgs)
-        if (!$inputArgs) {
-            return $regularArgs + @("-positionalArgs", @())
-        }
-        $head, $tail = $inputArgs
-        if ($head -eq "--") {
-            return $regularArgs + @("-positionalArgs", $tail)
-        }
-        return ExtractPositionalArgs ($regularArgs + $head) $tail 
-    }
-    return IterationStep @() $args
-}
-
-$transformedArgs = ExtractPositionalArgs $args
-RunUntilFail @transformedArgs
+$transformedArgs = ExtractPositionalArgs @args
+private:Implementation @transformedArgs
