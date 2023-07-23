@@ -1,19 +1,19 @@
+. $PSScriptRoot/Common.ps1
 . $PSScriptRoot/Notifications.ps1
     
 Function RunUntilFail {
     param (
-        [Parameter(Mandatory = $true, Position = 0, ValueFromRemainingArguments = $true)] $command,
+        $positionalArgs,
         $maxAttempts = 3,
         $successExitCode = 0,
         $timeoutSeconds = 2
     )
 
-    $commandText = [string]$command
-    if (!$commandText) {
+    if (!$positionalArgs) {
         Write-Error "Command is not specified"
         exit 1
     }
-    "Command: $commandText"
+    $commandText = ArgumentsToCommandText $args
     
     $attempt = 0
     Do {
@@ -41,4 +41,20 @@ Function RunUntilFail {
     } While($True)    
 }
 
-RunUntilFail @args
+Function ExtractPositionalArgs {
+    Function IterationStep {
+        param ($regularArgs, $inputArgs)
+        if (!$inputArgs) {
+            return $regularArgs + @("-positionalArgs", @())
+        }
+        $head, $tail = $inputArgs
+        if ($head -eq "--") {
+            return $regularArgs + @("-positionalArgs", $tail)
+        }
+        return ExtractPositionalArgs ($regularArgs + $head) $tail 
+    }
+    return IterationStep @() $args
+}
+
+$transformedArgs = ExtractPositionalArgs $args
+RunUntilFail @transformedArgs
