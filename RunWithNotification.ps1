@@ -18,7 +18,7 @@ $commandText = ArgumentsToCommandText $args
 $commandTextMessage = "'$commandText' in '$pwd'"
 Write-Host "Running $commandTextMessage ..."
 try {
-    Invoke-Expression $commandText
+    Invoke-Expression ". $commandText"
     if ($LastExitCode -and $LastExitCode -ne 0) {
         ReportError "$commandTextMessage has failed with code $LastExitCode"
         exit $LastExitCode

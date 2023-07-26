@@ -12,4 +12,4 @@ $logFileName = Join-Path $logDirectoryPath "$($args[0])_$(Get-Date -Format yyyyM
 
 $commandText = ArgumentsToCommandText $args
 Write-Host "Running $commandText ..."
-Invoke-Expression $commandText | timestamp | Tee-Object $logFileName
+Invoke-Expression ". $commandText" | timestamp | Tee-Object $logFileName

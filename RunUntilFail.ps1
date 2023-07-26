@@ -20,7 +20,7 @@ Function private:Implementation {
         $attempt++
         "Attempt $attempt` of $maxAttempts to run command '$commandText'"
         $global:LastExitCode = 0
-        Invoke-Expression $commandText
+        Invoke-Expression ". $commandText"
         if ($global:LastExitCode -gt $successExitCode) {
             $message =
                 "Attempt $attempt of $maxAttempts of command '$commandText' " +

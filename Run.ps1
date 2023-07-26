@@ -7,4 +7,4 @@ if (!$args) {
 
 $commandText = ArgumentsToCommandText $args
 Write-Host "Running $commandText ..."
-Invoke-Expression $commandText
+Invoke-Expression ". $commandText"
