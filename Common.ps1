@@ -1,4 +1,4 @@
-$specialSymbols = ("`"", "'", "|")
+$specialSymbols = ("``", "`"", "|")
 
 Function EscapeArgument {
     param ([Parameter(ValueFromPipeline = $true)] [string] $value)
