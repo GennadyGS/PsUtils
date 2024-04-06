@@ -21,7 +21,7 @@ Function private:Implementation {
         "Attempt $attempt` of $maxAttempts to run command '$commandText'"
         $global:LastExitCode = 0
         Invoke-Expression ". $commandText"
-        if ($global:LastExitCode -gt $successExitCode) {
+        if ($global:LastExitCode -gt $successExitCode -or $global:LastExitCode -lt 0) {
             $message =
                 "Attempt $attempt of $maxAttempts of command '$commandText' " +
                 "is finished with error exit code $global:LastExitCode"
