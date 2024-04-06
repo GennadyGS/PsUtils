@@ -38,7 +38,7 @@ Function ExtractPositionalArgs {
             return ,(,@() + $regularArgs)
         }
         $head, $tail = $inputArgs
-        if ($head -eq "--") {
+        if ($head -eq "---") {
             return ,(,$tail + $regularArgs)
         }
         return DoIteration ($regularArgs + $head) $tail
