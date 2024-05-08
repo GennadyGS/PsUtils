@@ -11,6 +11,6 @@ Invoke-Expression ". $commandText"
 if ($LastExitCode -and $LastExitCode -ne 0) {
     $commandTextMessage = "'$commandText' in '$pwd'"
     Write-Error "$commandTextMessage has failed with code $LastExitCode"
-    [System.Console]::ReadKey() | Out-Null
+    [System.Console]::ReadLine() | Out-Null
     exit $LastExitCode
 }
