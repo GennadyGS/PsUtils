@@ -1,0 +1,1 @@
+Invoke-Expression "$PSScriptRoot/RunWithNotification.ps1 $args"
