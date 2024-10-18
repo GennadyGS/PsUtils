@@ -8,7 +8,10 @@ If (!(Test-Path $path -PathType Container)) {
     throw "Source directory $path does not exist"
 }
 
-if ($override -and (Test-Path $destination) -and ((Get-Item $destination).LinkType -eq 'SymbolicLink')) {
+if ($override -and
+    (Test-Path $destination) -and
+    ((Get-Item $destination).LinkType -in ('SymbolicLink', 'Junction')))
+{
     Remove-Item $destination
 }
 
