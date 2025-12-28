@@ -17,7 +17,9 @@ if "%~1"=="" goto run
 set "ARG=%~1"
 set "ARG=!ARG:"=""!"
 
-if "%1" NEQ "%~1" set "ARG="""!ARG!""""
+set "ARGQ=%1"
+set "ARGU=%~1"
+if "%ARGQ:"=#%" NEQ "%ARGU:"=#%" set "ARG="""!ARG!""""
 
 set "ARGS=!ARGS! !ARG!"
 
