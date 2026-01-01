@@ -1,7 +1,8 @@
-if (!$args) {
-    Write-Error "Command is not specified"
-    exit 1
-}
+[CmdletBinding(PositionalBinding = $false)]
+param (
+    [Parameter(Mandatory, Position = 0)] $ScriptName,
+    [Parameter(ValueFromRemainingArguments)] [string[]] $RemainingArgs
+)
 
 Function ReportError {
     param ($message)
@@ -11,14 +12,14 @@ Function ReportError {
     NotifyError $message
 }
 
-. $PSScriptRoot/Common.ps1
 . $PSScriptRoot/Notifications.ps1
 
-$commandText = ArgumentsToCommandText $args
+$commandText = "$ScriptName $RemainingArgs"
 $commandTextMessage = "'$commandText' in '$pwd'"
 Write-Host "Running $commandTextMessage ..."
 try {
-    Invoke-Expression ". $commandText"
+    $LastExitCode = 0
+    & $ScriptName $RemainingArgs
     if ($LastExitCode -and $LastExitCode -ne 0) {
         ReportError "$commandTextMessage has failed with code $LastExitCode"
         exit $LastExitCode
@@ -28,4 +29,4 @@ catch{
     ReportError "$commandTextMessage has failed with error $_"
     exit 1
 }
-NotifySuccess "'$commandText' in '$pwd' has succeeded"
+NotifySuccess "$commandTextMessage has succeeded"
