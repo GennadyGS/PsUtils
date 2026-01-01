@@ -1,6 +1,6 @@
 param(
-    [Parameter(mandatory=$true)] $path,
-    [Parameter(mandatory=$true)] $destination,
+    [Parameter(Mandatory)] $path,
+    [Parameter(Mandatory)] $destination,
     [switch] $override
 )
 

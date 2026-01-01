@@ -1,9 +1,9 @@
 $imagesPath = "$PSScriptRoot/Images"
-$notifacationsModule = "$PSScriptRoot/PsModules/BurntToast/BurntToast/BurntToast.psm1"
-$notificationsEnabled = Test-Path $notifacationsModule
+$notificationsModule = "$PSScriptRoot/PsModules/BurntToast/BurntToast/BurntToast.psm1"
+$notificationsEnabled = Test-Path $notificationsModule
 
 if ($notificationsEnabled) {
-    Import-Module $notifacationsModule
+    Import-Module $notificationsModule
 }
 
 Function NotifySuccess {

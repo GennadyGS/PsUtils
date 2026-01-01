@@ -18,11 +18,11 @@ $commandText = "$ScriptName $RemainingArgs"
 $commandTextMessage = "'$commandText' in '$pwd'"
 Write-Host "Running $commandTextMessage ..."
 try {
-    $LastExitCode = 0
+    $global:LastExitCode = 0
     & $ScriptName $RemainingArgs
-    if ($LastExitCode -and $LastExitCode -ne 0) {
-        ReportError "$commandTextMessage has failed with code $LastExitCode"
-        exit $LastExitCode
+    if ($global:LastExitCode -and $global:LastExitCode -ne 0) {
+        ReportError "$commandTextMessage has failed with code $global:LastExitCode"
+        exit $global:LastExitCode
     }
 }
 catch{

@@ -1,6 +1,6 @@
 param (
-    [Parameter(mandatory=$true)] $name,
-    [Parameter(mandatory=$true)] $value,
+    [Parameter(Mandatory)] $name,
+    [Parameter(Mandatory)] $value,
     [System.EnvironmentVariableTarget] $scope = "User"
 )
 
