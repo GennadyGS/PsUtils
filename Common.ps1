@@ -45,3 +45,15 @@ Function ExtractPositionalArgs {
     }
     return DoIteration @() $args
 }
+
+function Resolve-FullScriptPath([string] $Name) {
+    $result =
+        (Get-Command -Name $Name -ErrorAction SilentlyContinue).Path ??
+        (Resolve-Path $Name -ErrorAction SilentlyContinue)?.Path
+
+    if (-not $result) {
+        throw "Cannot resolve script path for '$Name'"
+    }
+
+    return $result
+}
