@@ -25,8 +25,8 @@ Write-Host "Running $commandTextMessage ..."
 try {
     $global:LastExitCode = 0
     $FullScriptPath = Resolve-FullScriptPath $ScriptName
-    $QuotedArgs = $RemainingArgs | ForEach-Object { $_ -eq "-p" ? """$_""" : $_ }
-    & pwsh.exe -File $FullScriptPath $QuotedArgs
+    $QuotedArgs = $RemainingArgs | ForEach-Object { $_ -eq "-p" ? "`"$_`"" : $_ }
+    & cmd /c pwshShellProxy.cmd $FullScriptPath @QuotedArgs
     if ($global:LastExitCode -and $global:LastExitCode -ne 0) {
         ReportError "$commandTextMessage has failed with code $global:LastExitCode"
         exit $global:LastExitCode
