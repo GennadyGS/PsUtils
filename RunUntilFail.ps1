@@ -1,12 +1,20 @@
+[CmdletBinding(PositionalBinding = $false)]
+param (
+    [int] $maxAttempts = 3,
+    [int] $successExitCode = 0,
+    [int] $timeoutSeconds = 2,
+    [Parameter(Mandatory, ValueFromRemainingArguments)] [string[]] $Command
+)
+
 . $PSScriptRoot/Common.ps1
 . $PSScriptRoot/Notifications.ps1
 
 Function private:Implementation {
     param (
         $positionalArgs,
-        $maxAttempts = 3,
-        $successExitCode = 0,
-        $timeoutSeconds = 2
+        $maxAttempts,
+        $successExitCode,
+        $timeoutSeconds
     )
 
     if (!$positionalArgs) {
@@ -41,5 +49,8 @@ Function private:Implementation {
     } While($True)
 }
 
-$transformedArgs = ExtractPositionalArgs @args
-private:Implementation @transformedArgs
+private:Implementation `
+    -positionalArgs $Command `
+    -maxAttempts $maxAttempts `
+    -successExitCode $successExitCode `
+    -timeoutSeconds $timeoutSeconds
