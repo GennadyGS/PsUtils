@@ -35,11 +35,12 @@ Function ExtractPositionalArgs {
     Function DoIteration {
         param ($regularArgs, $inputArgs)
         if (!$inputArgs) {
-            return ,(,@() + $regularArgs)
+            # double-wrap: a single ",(...)" gets unrolled away when the array crosses a function return boundary
+            return ,(,($regularArgs))
         }
         $head, $tail = $inputArgs
         if ($head -eq "---") {
-            return ,(,$tail + $regularArgs)
+            return ,(,($tail + $regularArgs))
         }
         return DoIteration ($regularArgs + $head) $tail
     }
